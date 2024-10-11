@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Portfolio with Phonk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- For icons -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0d0d0d;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 300px;
+        }
+
+        .card img {
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            width: 100px;
+            height: 100px;
+        }
+
+        .card h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .card p {
+            color: #aaa;
+        }
+
+        .button {
+            background: #6200ea;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .button:hover {
+            background: #3700b3;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #6200ea;
+        }
+
+        /* Particles.js background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #0d0d0d;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
+
+        .mute-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #6200ea;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            z-index: 3;
+        }
+
+        .mute-button:hover {
+            background-color: #3700b3;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 4;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            color: white;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #f00;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Moving background with Particles.js -->
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <div class="card">
+            <!-- Updated profile image -->
+            <img src="https://i.pinimg.com/564x/6c/69/83/6c6983e0e6a6ad22b7119ea887bc38a0.jpg" alt="Profile Image">
+            <h1>ReFlex XD</h1>
+            <p>Class XII | School: IDK</p>
+            <p>~ Dev ~</p>
+            <p>hacking | JavaScript | HTML | CSS</p>
+            <button class="button" id="aboutBtn">About Me</button>
+            <button class="button">Follow</button>
+            <button class="button">Contact</button>
+
+            <!-- Social Media Links -->
+            <div class="social-icons">
+                <a href="https://www.instagram.com/reflex.69x?igsh=MWF3OGRua2U2ZW5oZg==" target="_blank"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="https://t.me/+aa8HaJNGMe8xYTE1" target="_blank"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for About Me -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>About Me</h2>
+            <p>Hello! I'm ReFlex passionate developer who loves coding in Python, JavaScript, HTML, and CSS. I am currently
+                in Class XI and learning new technologies daily.</p>
+        </div>
+    </div>
+
+    <!-- Mute Button for music -->
+    <button class="mute-button" id="muteButton">🔊</button>
+
+    <!-- Phonk Music -->
+    <audio id="phonkMusic" autoplay>
+        <source id="audioSource" src="" type="audio/mp3">
+    </audio>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js configuration
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Random Phonk Songs
+        const phonkSongs = [
+            'https://youtu.be/Bs32lGbEZ2c?si=eAP_sI4UE-8-UV5u',
+            'https://youtu.be/MWvEj3ot-Yo?si=NLIMOpS_4tI0aOdO',
+            'https://youtu.be/-xe77aErpRo?si=7kWchxqOGytyLikH'
+        ];
+
+        const randomSong = phonkSongs[Math.floor(Math.random() * phonkSongs.length)];
+        document.getElementById('audioSource').src = randomSong;
+
+        // Mute/Unmute functionality
+        const phonkMusic = document.getElementById('phonkMusic');
+        const muteButton = document.getElementById('muteButton');
+        let isMuted = false;
+
+        muteButton.addEventListener('click', () => {
+            if (isMuted) {
+                phonkMusic.play();
+                muteButton.textContent = '🔊';
+            } else {
+                phonkMusic.pause();
+                muteButton.textContent = '🔇';
+            }
+            isMuted = !isMuted;
+        });
+
+        // Modal functionality
+        const aboutModal = document.getElementById('aboutModal');
+        const aboutBtn = document.getElementById('aboutBtn');
+        const closeModal = document.getElementsByClassName('close')[0];
+
+        aboutBtn.onclick = function () {
+            aboutModal.style.display = 'block';
+        }
+
+        closeModal.onclick = function () {
+            aboutModal.style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            if (event.target == aboutModal) {
+                aboutModal.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
